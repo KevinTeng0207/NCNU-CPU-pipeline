@@ -232,10 +232,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 5;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 5;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -250,10 +256,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -266,10 +278,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 5;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 5;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -282,10 +300,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -298,10 +322,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 1;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 1;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -314,10 +344,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 3;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 3;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -330,10 +366,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 3;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 3;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
