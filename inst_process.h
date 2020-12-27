@@ -8,8 +8,8 @@
 /* arithematic and logic operations */
 #define	ADD	10001
 #define	SUB	10002
-#define	ADDI 10003
-#define	SUBI 10004
+#define	ADDI	10003
+#define	SUBI	10004
 #define	OR	10005
 #define	AND	10006
 #define	SLL	10007

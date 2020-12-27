@@ -22,7 +22,7 @@ void inst_func_simulation(char* inst){
 	int	i, j, k; 
 	char *OP; 
 	long r_d, r_s, r_t, C, shamt;
-	char reg_dest[32];
+	char	reg_dest[32];
 
 	/* instruction: ADD $1, $2, $3 */
 	char tmp[128];
@@ -226,7 +226,9 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "LW") == 0)
 	{
 		/* HOMEWORK */
-		sscanf(operands, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+		reg(r_d) = reg(mem(r_t) + (4 * r_s));
+
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
@@ -243,7 +245,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
-		reg(mem(r_t) + 4*r_s) = reg(r_d);
+		reg(mem(r_t) + (4 * r_s)); = reg(r_d);
 
 		switch(DATAPATH_TYPE)
 		{
