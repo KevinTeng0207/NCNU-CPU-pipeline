@@ -1,0 +1,20 @@
+# data placement has two fields: address and data
+# for data memory the address must be a multiplication of 4  
+# for register_file, the address must start with a $ sign 
+# anything after # sign is comment  
+# addresses not specified --> no data in that address (initialized to 0) 
+# address	data 
+-data_memory
+64	12
+80	88
+88	10
+
+-register_file
+$0	0	
+$1	1
+$2	2
+$3	3
+$4	4
+$5	5
+$6	6
+$7	7

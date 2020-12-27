@@ -1,0 +1,20 @@
+# integer arithmetic 
+add 	r1, r2, r3	# r1 = r2+r3
+sub	r1, r2, r3	# r1 = r2-r3
+addi	r1, r2, imme	# r1 = r2 + const(imme)
+subi	r1, r2, imme	# r1 = r2 - const(imme)
+or	r1, r2, r3	# r1 = r2 | r3
+and	r1, r2, r3	# r1 = r2 & r3
+sll	r1, r2, imme	# r1 = r2 shift left by imme bits
+srl	r1, r2, imme	# r1 = r2 shift right by imme bits 
+
+#load/store 
+lbu	r1, imme(r2)	# load one unsign byte from mem[r2+imme*4] to r1
+lw	r1, imme(r2)	# load one word from mem[r2+imme*4] 
+sbu	r1, imme(r2)	# store one unsigned byte of r1 to mem[r2+imme*4]
+sw	r1, imme(r2)	# store one word from r1 to mem[r2+imme*4]
+
+#control 
+j	addr		# jump to address addr 
+beq	r1, r2, diff	# jump to address pc+4+diff if r1 == r2
+bne	r1, r2, diff	# jump to address pc+4+diff if r1 != r2
