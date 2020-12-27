@@ -64,10 +64,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -82,10 +88,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -100,10 +112,16 @@ void inst_func_simulation(char* inst){
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -113,15 +131,21 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
-		reg(r_d) = reg(r_s) || reg(r_t);
+		reg(r_d) = reg(r_s) | reg(r_t);
 
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -131,15 +155,21 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
-		reg(r_d) = reg(r_s) && reg(r_t);
+		reg(r_d) = reg(r_s) & reg(r_t);
 
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -149,19 +179,21 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
-		while(r_t > 0){
-			reg(r_s) = reg(r_s) * 2;
-			r_t -= 1;
-		}
-		reg(r_d) = reg(r_s);
+		reg(r_d) = reg(r_s) << r_t;
 
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
@@ -171,19 +203,21 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
-		while(r_t > 0){
-			reg(r_s) = reg(r_s) / 2;
-			r_t -= 1;
-		}
-		reg(r_d) = reg(r_s);
+		reg(r_d) = reg(r_s) >> r_t;
 
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
+				sim_cycles++;
 				break;
 			case MULTI:
+				sim_cycles += 4;
 				break;
 			case PIPELINE:
+				if(sim_cycles == 0)
+					sim_cycles = 4;
+				else
+					sim_cycles++;
 				break;
 		}
 		return;
