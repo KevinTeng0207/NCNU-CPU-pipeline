@@ -58,6 +58,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "SUB") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+		reg(r_d) = reg(r_s) - reg(r_t);
 
 		switch(DATAPATH_TYPE)
 		{
@@ -74,6 +76,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "ADDI") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, %ld", &r_d, &r_s, r_t);
+		reg(r_d) = reg(r_s) + r_t;
 
 		switch(DATAPATH_TYPE)
 		{
@@ -90,6 +94,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "SUBI") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+		reg(r_d) = reg(r_s) - r_t;
 
 		switch(DATAPATH_TYPE)
 		{
@@ -106,6 +112,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "OR") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+		reg(r_d) = reg(r_s) || reg(r_t);
 
 		switch(DATAPATH_TYPE)
 		{
@@ -122,6 +130,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "AND") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+		reg(r_d) = reg(r_s) && reg(r_t);
 
 		switch(DATAPATH_TYPE)
 		{
@@ -138,6 +148,12 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "SLL") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+		while(r_t > 0){
+			reg(r_s) = reg(r_s) * 2;
+			r_t -= 1;
+		}
+		reg(r_d) = reg(r_s);
 
 		switch(DATAPATH_TYPE)
 		{
@@ -154,6 +170,12 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "SRL") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+		while(r_t > 0){
+			reg(r_s) = reg(r_s) / 2;
+			r_t -= 1;
+		}
+		reg(r_d) = reg(r_s);
 
 		switch(DATAPATH_TYPE)
 		{
