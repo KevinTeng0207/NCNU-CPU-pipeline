@@ -242,6 +242,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "SW") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+		reg(mem(r_t) + 4*r_s) = reg(r_d);
 
 		switch(DATAPATH_TYPE)
 		{
