@@ -278,7 +278,10 @@ void inst_func_simulation(char* inst){
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 		reg(r_d) = mem(reg(r_t) + (4 * r_s)) & 0xFF;
+<<<<<<< HEAD
 
+=======
+>>>>>>> ecc3758433bf20bd2040816d8a7fb7926419d1bd
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
@@ -302,7 +305,10 @@ void inst_func_simulation(char* inst){
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 		mem(reg(r_t) + (4 * r_s)) = reg(r_d) & 0xFF;
+<<<<<<< HEAD
 
+=======
+>>>>>>> ecc3758433bf20bd2040816d8a7fb7926419d1bd
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
@@ -423,5 +429,29 @@ void inst_func_simulation(char* inst){
 		}
 		return;
 	}
-
+	if (strcmp(OP, "SLT") == 0)
+	{
+		/* HOMEWORK */
+		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+		if (reg(r_t) < reg(r_s))
+			reg(r_d) = 1;
+		else
+			reg(r_d) = 0;
+		switch (DATAPATH_TYPE)
+		{
+		case SINGLE:
+			sim_cycles++;
+			break;
+		case MULTI:
+			sim_cycles += 4;
+			break;
+		case PIPELINE:
+			if (sim_cycles == 0)
+				sim_cycles = 4;
+			else
+				sim_cycles++;
+			break;
+		}
+		return;
+	}
 }
