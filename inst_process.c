@@ -425,7 +425,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
-		if (reg(r_t) < reg(r_s))
+		if (reg(r_t) > reg(r_s))
 			reg(r_d) = 1;
 		else
 			reg(r_d) = 0;
