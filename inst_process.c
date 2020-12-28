@@ -276,6 +276,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "LBU") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+		reg(r_d) = mem(reg(r_t) + (4 * r_s)) & 0xFF;
 
 		switch(DATAPATH_TYPE)
 		{
@@ -298,6 +300,8 @@ void inst_func_simulation(char* inst){
 	if(strcmp(OP, "SBU") == 0)
 	{
 		/* HOMEWORK */
+		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+		mem(reg(r_t) + (4 * r_s)) = reg(r_d) & 0xFF;
 
 		switch(DATAPATH_TYPE)
 		{
