@@ -229,7 +229,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
-		reg(r_d) = reg(mem(r_t) + (4 * r_s));
+		reg(r_d) = mem(reg(r_t) + (4 * r_s));
 
 		switch(DATAPATH_TYPE)
 		{
@@ -253,7 +253,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
-		reg(mem(r_t) + (4 * r_s)) = reg(r_d);
+		mem(reg(r_t) + (4 * r_s)) = reg(r_d);
 		//testwqerwer
 		switch(DATAPATH_TYPE)
 		{
@@ -321,7 +321,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "%s", reg_dest);
-		for (int i = 0; i < 2048; i += 4)
+		for (int i = 0; i < max_inst; i += 4)
 		{
 			if (strcmp(inst_memory[i].data, "UNUSE") == 0)
 				continue;
