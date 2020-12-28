@@ -321,7 +321,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "%s", reg_dest);
-		for (int i = 0; i < max_inst; i += 4)
+		for (int i = 0; i < 2048; i += 4)
 		{
 			if (strcmp(inst_memory[i].data, "UNUSE") == 0)
 				continue;
