@@ -325,13 +325,13 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "%s", reg_dest);
-		for (int i = 0; i < max_inst; i += 4)
+		for (int i = 0; i < max_inst; i += 1)
 		{
 			if (strcmp(inst_memory[i*4].data, "UNUSE") == 0)
 				continue;
 			if (strcmp(inst_memory[i*4].label, reg_dest) == 0)
 			{
-				PC = i;
+				PC = i*4;
 				break;
 			}
 		}
@@ -360,13 +360,13 @@ void inst_func_simulation(char* inst){
 		sscanf(operands, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
 		if (reg(r_d) == reg(r_s))
 		{
-			for (int i = 0; i < max_inst; i += 4)
+			for (int i = 0; i < max_inst; i += 1)
 			{
 				if (strcmp(inst_memory[i*4].data, "UNUSE") == 0)
 					continue;
 				if (strcmp(inst_memory[i*4].label, reg_dest) == 0)
 				{
-					PC = i;
+					PC = i*4;
 					break;
 				}
 			}
@@ -395,13 +395,13 @@ void inst_func_simulation(char* inst){
 		sscanf(operands, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
 		if (reg(r_d) != reg(r_s))
 		{
-			for (int i = 0; i < max_inst; i += 4)
+			for (int i = 0; i < max_inst; i += 1)
 			{
 				if (strcmp(inst_memory[i*4].data, "UNUSE") == 0)
 					continue;
 				if (strcmp(inst_memory[i*4].label, reg_dest) == 0)
 				{
-					PC = i;
+					PC = i*4;
 					break;
 				}
 			}
