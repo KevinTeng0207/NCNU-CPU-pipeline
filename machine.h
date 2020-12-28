@@ -70,7 +70,7 @@ MEMORY inst_memory[2048];
 FILE_MEMORY data_memory[2048];
 FILE_MEMORY reg_memory[2048];
 
-long	Register[64];	/* maximum number of the register is set to 64*/
+long Register[64];	/* maximum number of the register is set to 64*/
 
 void setup_hardware_cfg(char *HWCfg);
 
