@@ -172,7 +172,23 @@ void init_CPU_cycle_time(void){
 		case SINGLE:
 			CPU_CYCLE_TIME = MEMORY_ACC_TIME * 2 + REGISTER_ACC_TIME * 2 + ALU_TIME;  
 			break; 
-		case MULTI: case PIPELINE:
+		case MULTI: 
+			if (MEMORY_ACC_TIME > REGISTER_ACC_TIME)
+			{
+				if (MEMORY_ACC_TIME > ALU_TIME)
+					CPU_CYCLE_TIME = MEMORY_ACC_TIME;
+				else
+					CPU_CYCLE_TIME = ALU_TIME;
+			}
+			else
+			{
+				if (REGISTER_ACC_TIME > ALU_TIME)
+					CPU_CYCLE_TIME = REGISTER_ACC_TIME;
+				else
+					CPU_CYCLE_TIME = ALU_TIME;
+			}
+			break;
+		case PIPELINE:
 			if (MEMORY_ACC_TIME > REGISTER_ACC_TIME)
 			{
 				if (MEMORY_ACC_TIME > ALU_TIME)

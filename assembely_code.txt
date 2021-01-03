@@ -1,0 +1,9 @@
+# the given assembly code is defined here 
+# three fileds: memory address, label and instruction 
+# mem_addr	label	instruction
+0	Start:	ADD	$2, $1, $2
+4	SUB	$3,	$2,	$1
+8	OR	$8,	$5,	$6
+12	AND	$9,	$6,	$7
+16	SLL	$10,	$2,	4
+20	Exit:	

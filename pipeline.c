@@ -28,7 +28,7 @@ void inst_fetch(char* inst)
 		{
 			return;
 		}
-			
+		
 		strcpy(IFID.op, OP);
 		strcpy(IFID.inst, operands);
 		printf("OP: %s operands: %s\n", OP, operands);
