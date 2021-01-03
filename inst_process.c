@@ -253,7 +253,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
-		mem(reg(r_t) + (4 * r_s)) = reg(r_d);
+		mem(reg(r_t) + 4 * r_s) = reg(r_d);
 		//testwqerwer
 		switch(DATAPATH_TYPE)
 		{
@@ -278,10 +278,6 @@ void inst_func_simulation(char* inst){
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 		reg(r_d) = mem(reg(r_t) + (4 * r_s)) & 0xFF;
-<<<<<<< HEAD
-
-=======
->>>>>>> ecc3758433bf20bd2040816d8a7fb7926419d1bd
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
@@ -305,10 +301,6 @@ void inst_func_simulation(char* inst){
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 		mem(reg(r_t) + (4 * r_s)) = reg(r_d) & 0xFF;
-<<<<<<< HEAD
-
-=======
->>>>>>> ecc3758433bf20bd2040816d8a7fb7926419d1bd
 		switch(DATAPATH_TYPE)
 		{
 			case SINGLE:
@@ -433,7 +425,7 @@ void inst_func_simulation(char* inst){
 	{
 		/* HOMEWORK */
 		sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
-		if (reg(r_t) < reg(r_s))
+		if (reg(r_s) < reg(r_t))
 			reg(r_d) = 1;
 		else
 			reg(r_d) = 0;
