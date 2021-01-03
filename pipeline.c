@@ -331,14 +331,14 @@ void mem_writeback(void)
 }
 void reg_update(void)
 {
-	//virtual version
-	/*if (MEMWB.rd >= 0)
+	//putty version
+	if (MEMWB.rd >= 0)
 	{
 		reg(MEMWB.rd) = MEMWB.temp;
-	}*/
+	}
 
-	//putty version
-	reg(MEMWB.rd) = MEMWB.temp;
+	//virtual version
+	//reg(MEMWB.rd) = MEMWB.temp;
 
 	clear_pipeline_register_content(&MEMWB);
 	return;
