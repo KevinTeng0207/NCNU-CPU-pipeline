@@ -405,7 +405,8 @@ void pass_register_content(PIPELINE_MEMORY *source, PIPELINE_MEMORY *destination
 }
 bool pipeline_next_stage_null(PIPELINE_MEMORY temp)
 {
-	if (temp.rs == -1 && temp.rt == -1 && temp.rd == -1 && temp.imm == -1 && strcmp(temp.op, "null") == 0 && strcmp(temp.inst, "null") == 0)
+	if (temp.rs == -1 && temp.rt == -1 && temp.rd == -1 && temp.imm == -1 && 
+		strcmp(temp.op, "null") == 0 && strcmp(temp.inst, "null") == 0)
 		return true;
 	return false;
 }
