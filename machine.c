@@ -166,15 +166,16 @@ void setup_hardware_cfg(char *HWCfg){
 
 void init_CPU_cycle_time(void){
 	int	i, j, k; 
-
-	/* HOMEWORK 5/17 : finish the CPU cycle time calculation for multi-cycle datapath and pipeline datapath */
+	
+	/* HOMEWORK: finish the CPU cycle time calculation for multi-cycle datapath */
 	switch(DATAPATH_TYPE){
-		case SINGLE:
-			CPU_CYCLE_TIME = MEMORY_ACC_TIME * 2 + REGISTER_ACC_TIME * 2 + ALU_TIME;
+		case SINGLE://5個全部
+			CPU_CYCLE_TIME = MEMORY_ACC_TIME * 2 + REGISTER_ACC_TIME * 2 + ALU_TIME;  
 			break; 
-		case MULTI: 
-			break; 
-		case PIPELINE: 
+		case MULTI: //以5個裡最長的為準
+
+		case PIPELINE://5stage pipeline
+
 			break; 
 	}
 }
@@ -245,8 +246,7 @@ void setup_inst_memory(char *inst_mem_content_file){
 
 			inst_memory[mem_addr].mem_addr = mem_addr;
 			strcpy(inst_memory[mem_addr].data, inst);
-            max_inst++;
-
+                                                               max_inst++; 
 		}
 	}
 }

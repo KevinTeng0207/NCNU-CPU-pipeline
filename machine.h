@@ -22,12 +22,12 @@ Data structures for
    (c) inst and data memory has the same memory access latency  
 */
 
-int	DATAPATH_TYPE; 			// indicate the type of the datapath 
+int	DATAPATH_TYPE; 		// indicate the type of the datapath 
 long	CPU_CYCLE_TIME; 	// in pico second
 long	MEMORY_ACC_TIME;	// memory access time in pico seconds
 long	REGISTER_ACC_TIME;	// register access time in pico seconds  
-long	ALU_TIME; 			// ALU execution time in pico seconds
-long	PC;					// program counter  
+long	ALU_TIME; 		// ALU execution time in pico seconds
+long	PC;			// program counter  
 long	num_inst_mem_word;	// number of words in the instruction memory 
 long	num_data_mem_word;	// number of words in the data memory 
 long	num_reg_mem_word;
@@ -66,11 +66,11 @@ typedef struct file_memory{
   char data[128];
 }FILE_MEMORY;
 
-MEMORY inst_memory[2048];
-FILE_MEMORY data_memory[2048];
+MEMORY inst_memory[2048];    //只有指令用MEMORY放
+FILE_MEMORY data_memory[2048];   //DATA和REG都用FILE_MEMORY
 FILE_MEMORY reg_memory[2048];
 
-long Register[64];	/* maximum number of the register is set to 64*/
+long	Register[64];	/* maximum number of the register is set to 64*/
 
 void setup_hardware_cfg(char *HWCfg);
 
