@@ -318,10 +318,7 @@ void mem_writeback(void)
 }
 void reg_update(void)
 {
-	if (strcmp(MEMWB.op, "ADD") == 0)
-	{
-		reg(MEMWB.rd) = MEMWB.temp;
-	}
+	reg(MEMWB.rd) = MEMWB.temp;
 
 	clear_pipeline_register_content(&MEMWB);
 	return;
