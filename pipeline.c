@@ -25,15 +25,11 @@ void inst_fetch(char* inst)
 		OP = strtok(tmp, "\t");
 		char* operands = OP + strlen(OP) + 1;
 		//virtual version
-		/*if (strcmp(OP, "\n") == 0)
-		{
+		if (strcmp(OP, "\n") == 0)
 			return;
-		}*/
-		//putty version
-		if (strcmp(OP, "UNUSE") == 0)
-		{
-			return;
-		}
+		////putty version
+		//if (strcmp(OP, "UNUSE") == 0 || strcmp(operands, "") == 0)
+		//	return;
 		strcpy(IFID.op, OP);
 		strcpy(IFID.inst, operands);
 		printf("OP: %s operands: %s\n", OP, operands);
@@ -331,14 +327,14 @@ void mem_writeback(void)
 }
 void reg_update(void)
 {
-	//putty version
-	if (MEMWB.rd >= 0)
-	{
-		reg(MEMWB.rd) = MEMWB.temp;
-	}
+	////putty version
+	//if (MEMWB.rd >= 0)
+	//{
+	//	reg(MEMWB.rd) = MEMWB.temp;
+	//}
 
 	//virtual version
-	//reg(MEMWB.rd) = MEMWB.temp;
+	reg(MEMWB.rd) = MEMWB.temp;
 
 	clear_pipeline_register_content(&MEMWB);
 	return;
