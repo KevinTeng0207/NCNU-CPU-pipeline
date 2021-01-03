@@ -99,7 +99,7 @@ int main(int argc, char* argv[]){
 	FILE	*output; 
 
 	if(argc != 5){
-		printf("usage: NCNU_CPU_SIM HW_Config.cfg init_data_placement.txt assembely_code.txt perf_results.txt \n");
+		printf("usage: NCNU_CPU_SIM HW_Config.cfg init_data_placement.txt assembly_code.txt perf_results.txt \n");
 		exit(1);
 	}
 

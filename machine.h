@@ -22,12 +22,12 @@ Data structures for
    (c) inst and data memory has the same memory access latency  
 */
 
-int	DATAPATH_TYPE; 		// indicate the type of the datapath 
+int	DATAPATH_TYPE; 			// indicate the type of the datapath 
 long	CPU_CYCLE_TIME; 	// in pico second
 long	MEMORY_ACC_TIME;	// memory access time in pico seconds
 long	REGISTER_ACC_TIME;	// register access time in pico seconds  
-long	ALU_TIME; 		// ALU execution time in pico seconds
-long	PC;			// program counter  
+long	ALU_TIME; 			// ALU execution time in pico seconds
+long	PC;					// program counter  
 long	num_inst_mem_word;	// number of words in the instruction memory 
 long	num_data_mem_word;	// number of words in the data memory 
 long	num_reg_mem_word;

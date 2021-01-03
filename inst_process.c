@@ -51,12 +51,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 4;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -66,7 +60,6 @@ void inst_func_simulation(char* inst) {
 			/* HOMEWORK */
 			sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			reg(r_d) = reg(r_s) - reg(r_t);
-
 			switch (DATAPATH_TYPE)
 			{
 			case SINGLE:
@@ -74,12 +67,6 @@ void inst_func_simulation(char* inst) {
 				break;
 			case MULTI:
 				sim_cycles += 4;
-				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
 				break;
 			}
 			return;
@@ -99,12 +86,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 4;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -122,12 +103,6 @@ void inst_func_simulation(char* inst) {
 				break;
 			case MULTI:
 				sim_cycles += 4;
-				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
 				break;
 			}
 			return;
@@ -147,12 +122,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 4;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -170,12 +139,6 @@ void inst_func_simulation(char* inst) {
 				break;
 			case MULTI:
 				sim_cycles += 4;
-				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
 				break;
 			}
 			return;
@@ -195,12 +158,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 4;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -218,12 +175,6 @@ void inst_func_simulation(char* inst) {
 				break;
 			case MULTI:
 				sim_cycles += 4;
-				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
 				break;
 			}
 			return;
@@ -243,12 +194,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 5;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 5;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -267,12 +212,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 4;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -290,12 +229,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 5;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 5;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -312,12 +245,6 @@ void inst_func_simulation(char* inst) {
 				break;
 			case MULTI:
 				sim_cycles += 4;
-				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
 				break;
 			}
 			return;
@@ -346,12 +273,7 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 1;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 1;
-				else
-					sim_cycles++;
-				break;
+
 			}
 			return;
 		}
@@ -380,12 +302,6 @@ void inst_func_simulation(char* inst) {
 				break;
 			case MULTI:
 				sim_cycles += 3;
-				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 3;
-				else
-					sim_cycles++;
 				break;
 			}
 			return;
@@ -416,12 +332,6 @@ void inst_func_simulation(char* inst) {
 			case MULTI:
 				sim_cycles += 3;
 				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 3;
-				else
-					sim_cycles++;
-				break;
 			}
 			return;
 		}
@@ -440,12 +350,6 @@ void inst_func_simulation(char* inst) {
 				break;
 			case MULTI:
 				sim_cycles += 4;
-				break;
-			case PIPELINE:
-				if (sim_cycles == 0)
-					sim_cycles = 4;
-				else
-					sim_cycles++;
 				break;
 			}
 			return;
