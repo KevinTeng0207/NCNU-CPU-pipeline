@@ -173,7 +173,21 @@ void init_CPU_cycle_time(void){
 			CPU_CYCLE_TIME = MEMORY_ACC_TIME * 2 + REGISTER_ACC_TIME * 2 + ALU_TIME;  
 			break; 
 		case MULTI: //以5個裡最長的為準
-
+			if (MEMORY_ACC_TIME > REGISTER_ACC_TIME)
+			{
+				if (MEMORY_ACC_TIME > ALU_TIME)
+					CPU_CYCLE_TIME = MEMORY_ACC_TIME;
+				else
+					CPU_CYCLE_TIME = ALU_TIME;
+			}
+			else
+			{
+				if (REGISTER_ACC_TIME > ALU_TIME)
+					CPU_CYCLE_TIME = REGISTER_ACC_TIME;
+				else
+					CPU_CYCLE_TIME = ALU_TIME;
+			}
+			break;
 		case PIPELINE://5stage pipeline
 
 			break; 
@@ -246,7 +260,7 @@ void setup_inst_memory(char *inst_mem_content_file){
 
 			inst_memory[mem_addr].mem_addr = mem_addr;
 			strcpy(inst_memory[mem_addr].data, inst);
-                                                               max_inst++; 
+            max_inst++; 
 		}
 	}
 }
