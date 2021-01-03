@@ -138,11 +138,14 @@ int main(int argc, char* argv[]){
 	bool running = true;
 	if (strcmp(inst_memory[PC].label, "Exit") == 0)
 		running = false;
+	int xi = 0;
 	while(running || pipeline_null() )
 	{
 		inst_func_simulation(inst_memory[PC].data);
 		if (strcmp(inst_memory[PC].label, "Exit") == 0)
 			running = false;
+		/*if (xi++ == 6)
+			break;*/
 		/*  update the program counter accordingly */
 	}
 

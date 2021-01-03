@@ -16,6 +16,7 @@
 
 void inst_fetch(char* inst)
 {
+	printf("inst  == %s\n", inst);
 	if (pipeline_next_stage_null(IFID) == true)
 	{
 		char *OP;
@@ -23,8 +24,11 @@ void inst_fetch(char* inst)
 		strcpy(tmp, inst);
 		OP = strtok(tmp, "\t");
 		char* operands = OP + strlen(OP) + 1;
-		if (strcmp(operands, "") == 0)
+		if (strcmp(OP, "\n") == 0)
+		{
 			return;
+		}
+			
 		strcpy(IFID.op, OP);
 		strcpy(IFID.inst, operands);
 		printf("OP: %s operands: %s\n", OP, operands);
@@ -218,8 +222,10 @@ void inst_execute(void)
 		if (strcmp(IDEX.op, "J") == 0)
 		{
 			sscanf(IDEX.inst, "%s", reg_dest);
-			for (int i = 0; i < max_inst * 4; i += 4)
+			for (int i = 0; i < 2048; i += 4)
 			{
+				if (strcmp(inst_memory[i].data, "UNUSE") == 0)
+					continue;
 				if (strcmp(inst_memory[i].label, reg_dest) == 0)
 				{
 					PC = i;
@@ -233,8 +239,10 @@ void inst_execute(void)
 			EXMEM.rd = r_d;
 			if (EXMEM.temp)
 			{
-				for (int i = 0; i < max_inst * 4; i += 4)
+				for (int i = 0; i < 2048; i += 4)
 				{
+					if (strcmp(inst_memory[i].data, "UNUSE") == 0)
+						continue;
 					if (strcmp(inst_memory[i].label, reg_dest) == 0)
 					{
 						PC = i;
@@ -335,7 +343,8 @@ bool pipeline_null(void)
 {
 	if (DATAPATH_TYPE == PIPELINE)
 	{
-		if (pipeline_next_stage_null(IFID) == true && pipeline_next_stage_null(IDEX) == true && pipeline_next_stage_null(EXMEM) == true && pipeline_next_stage_null(MEMWB) == true)
+		if (pipeline_next_stage_null(IFID) == true && pipeline_next_stage_null(IDEX) == true && 
+			pipeline_next_stage_null(EXMEM) == true && pipeline_next_stage_null(MEMWB) == true)
 			return false;
 		else
 			return true;
@@ -359,6 +368,7 @@ void print_pipeline_register_content(void)
 	printf("MEMWB\n");
 	printf("rs: $%d rt: $%d rd: $%d imm: %d temp: %d\n", MEMWB.rs, MEMWB.rt, MEMWB.rd, MEMWB.imm, MEMWB.temp);
 	printf("op: %s inst: %s\n", MEMWB.op, MEMWB.inst);
+	printf("\n");
 	return;
 
 }

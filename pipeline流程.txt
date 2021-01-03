@@ -1,0 +1,153 @@
+pipe stages: 0
+data mem word: 256
+inst mem word: 512
+reg mem word: 16
+mem acc time: 100
+alu time: 30
+reg acc time: 30
+mem addr: 64 data: 12
+mem addr: 80 data: 88
+mem addr: 88 data: 10
+reg num: 0 data: 0
+reg num: 1 data: 1
+reg num: 2 data: 1
+reg num: 3 data: 3
+reg num: 4 data: 4
+reg num: 5 data: 5
+reg num: 6 data: 6
+reg num: 7 data: 7
+mem addr: 0 label: Start inst: 	ADD	$2, $1, $2
+
+mem addr: 4 inst: SUB	$3,	$2,	$1
+
+mem addr: 8 inst: OR	$8,	$5,	$6
+
+mem addr: 12 inst: AND	$9,	$6,	$7
+
+mem addr: 16 inst: SLL	$10,	$2,	4
+
+mem addr: 20 label: Exit inst: 	
+
+PC: 0
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: ADD inst: $2, $1, $2
+IDEX
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+EXMEM
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+MEMWB
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: SUB inst: $3,	$2,	$1
+IDEX
+rs: $1 rt: $2 rd: $2 imm: -1 temp: -1
+op: ADD inst: $2, $1, $2
+EXMEM
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+MEMWB
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: OR inst: $8,	$5,	$6
+IDEX
+rs: $2 rt: $1 rd: $3 imm: -1 temp: -1
+op: SUB inst: $3,	$2,	$1
+EXMEM
+rs: $1 rt: $2 rd: $2 imm: -1 temp: 2
+op: ADD inst: $2, $1, $2
+MEMWB
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: AND inst: $9,	$6,	$7
+IDEX
+rs: $5 rt: $6 rd: $8 imm: -1 temp: -1
+op: OR inst: $8,	$5,	$6
+EXMEM
+rs: $2 rt: $1 rd: $3 imm: -1 temp: 0
+op: SUB inst: $3,	$2,	$1
+MEMWB
+rs: $1 rt: $2 rd: $2 imm: -1 temp: 2
+op: ADD inst: $2, $1, $2
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: SLL inst: $10,	$2,	4
+
+IDEX
+rs: $6 rt: $7 rd: $9 imm: -1 temp: -1
+op: AND inst: $9,	$6,	$7
+
+EXMEM
+rs: $5 rt: $6 rd: $8 imm: -1 temp: 7
+op: OR inst: $8,	$5,	$6
+
+MEMWB
+rs: $2 rt: $1 rd: $3 imm: -1 temp: 0
+op: SUB inst: $3,	$2,	$1
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+IDEX
+rs: $0 rt: $-1 rd: $10 imm: 4 temp: -1
+op: SLL inst: $10,	$2,	4
+
+EXMEM
+rs: $6 rt: $7 rd: $9 imm: -1 temp: 6
+op: AND inst: $9,	$6,	$7
+
+MEMWB
+rs: $5 rt: $6 rd: $8 imm: -1 temp: 7
+op: OR inst: $8,	$5,	$6
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+IDEX
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+EXMEM
+rs: $0 rt: $-1 rd: $10 imm: 4 temp: 32
+op: SLL inst: $10,	$2,	4
+
+MEMWB
+rs: $6 rt: $7 rd: $9 imm: -1 temp: 6
+op: AND inst: $9,	$6,	$7
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+IDEX
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+EXMEM
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+MEMWB
+rs: $0 rt: $-1 rd: $10 imm: 4 temp: 32
+op: SLL inst: $10,	$2,	4
+
+IFID
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+IDEX
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+EXMEM
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null
+MEMWB
+rs: $-1 rt: $-1 rd: $-1 imm: -1 temp: -1
+op: null inst: null

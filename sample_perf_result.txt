@@ -1,0 +1,35 @@
+CPU cycle time:	100 ps
+Datapath type:	Pipeline 
+Total # of CPU cycles:	9 
+Instruction Memory Contents: 
+Mem_Addr	Label	Instruction 
+0		Start		ADD	$2, $1, $2
+
+4			SUB	$3,	$2,	$1
+
+8			OR	$8,	$5,	$6
+
+12			AND	$9,	$6,	$7
+
+16			SLL	$10,	$2,	4
+
+20		Exit		
+
+Data Memory Contents: 
+Mem_Addr	Data 
+64		12
+80		88
+88		10
+Register file contents: 
+Reg_ID	Data 
+0	0
+1	1
+2	3
+3	1
+4	4
+5	5
+6	6
+7	7
+8	7
+9	6
+10	48

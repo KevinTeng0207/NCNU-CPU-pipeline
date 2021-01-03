@@ -172,7 +172,7 @@ void init_CPU_cycle_time(void){
 		case SINGLE:
 			CPU_CYCLE_TIME = MEMORY_ACC_TIME * 2 + REGISTER_ACC_TIME * 2 + ALU_TIME;  
 			break; 
-		case MULTI: 
+		case MULTI: case PIPELINE:
 			if (MEMORY_ACC_TIME > REGISTER_ACC_TIME)
 			{
 				if (MEMORY_ACC_TIME > ALU_TIME)
@@ -188,9 +188,6 @@ void init_CPU_cycle_time(void){
 					CPU_CYCLE_TIME = ALU_TIME;
 			}
 			break;
-		case PIPELINE://5stage pipeline
-
-			break; 
 	}
 }
 
