@@ -66,7 +66,6 @@ void inst_func_simulation(char* inst) {
 			/* HOMEWORK */
 			sscanf(operands, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			reg(r_d) = reg(r_s) - reg(r_t);
-
 			switch (DATAPATH_TYPE)
 			{
 			case SINGLE:
