@@ -42,7 +42,7 @@ void inst_decode(void)
 	if (pipeline_next_stage_null(IDEX) == true)
 	{
 		pass_register_content(&IFID, &IDEX);
-		//** 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以ADD為例,請完成"所有"指令
+		// 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以ADD為例,請完成"所有"指令
 		if (strcmp(IFID.op, "ADD") == 0)
 		{
 			sscanf(IFID.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
@@ -166,7 +166,7 @@ void inst_execute(void)
 	if (pipeline_next_stage_null(EXMEM) == true)
 	{
 		pass_register_content(&IDEX, &EXMEM);
-		//** 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以ADD為例,請完成"所有"指令
+		// 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以ADD為例,請完成"所有"指令
 		if (strcmp(IDEX.op, "ADD") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
@@ -215,29 +215,11 @@ void inst_execute(void)
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) >> r_t;
 		}
-		if (strcmp(IDEX.op, "LW") == 0)
+		if ((strcmp(IDEX.op, "LW") == 0 || strcmp(IDEX.op, "SW") == 0) || (strcmp(IDEX.op, "LBU") == 0 || strcmp(IDEX.op, "SBU")) == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = (reg(r_t) + (r_s));
-		}
-		if (strcmp(IDEX.op, "SW") == 0)
-		{
-			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
-			EXMEM.rd = reg(r_t) + (r_s);
-			EXMEM.temp = reg(r_d);
-		}
-		if (strcmp(IDEX.op, "LBU") == 0)
-		{
-			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
-			EXMEM.rd = r_d;
-			EXMEM.temp = reg(r_t) + (r_s);
-		}
-		if (strcmp(IDEX.op, "SBU") == 0)
-		{
-			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
-			EXMEM.rd = reg(r_t) + (r_s);
-			EXMEM.temp = reg(r_d);
 		}
 		if (strcmp(IDEX.op, "J") == 0)
 		{
@@ -251,23 +233,7 @@ void inst_execute(void)
 				}
 			}
 		}
-		if (strcmp(IDEX.op, "BEQ") == 0)
-		{
-			sscanf(IDEX.inst, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
-			EXMEM.rd = r_d;
-			if (EXMEM.temp)
-			{
-				for (int i = 0; i < max_inst * 4; i += 4)
-				{
-					if (strcmp(inst_memory[i].label, reg_dest) == 0)
-					{
-						PC = i;
-						break;
-					}
-				}
-			}
-		}
-		if (strcmp(IDEX.op, "BNE") == 0)
+		if (strcmp(IDEX.op, "BEQ") == 0 || strcmp(IDEX.op, "BNE") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
 			EXMEM.rd = r_d;
@@ -293,7 +259,7 @@ void mem_writeback(void)
 	if (pipeline_next_stage_null(MEMWB) == true)
 	{
 		pass_register_content(&EXMEM, &MEMWB);
-		//** 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以LW為例,請完成"需要的所有"指令
+		// 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以LW為例,請完成"需要的所有"指令
 		if (strcmp(EXMEM.op, "LW") == 0)
 		{
 			MEMWB.temp = mem(EXMEM.temp);
@@ -308,7 +274,7 @@ void mem_writeback(void)
 void reg_update(void)
 {
 	/*將修改後的資料寫回register*/
-	//** 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以ADD為例,請完成"需要的所有"指令
+	// 0607 HOMEWORK: 在不同指令下應該做甚麼事情,以ADD為例,請完成"需要的所有"指令
 	if (strcmp(MEMWB.op, "ADD") == 0)
 	{
 		reg(MEMWB.rd) = MEMWB.temp;
