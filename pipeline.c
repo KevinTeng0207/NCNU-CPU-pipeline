@@ -17,7 +17,7 @@
 
 void inst_fetch(char* inst)
 {
-	/*§ó·sPC*/
+	/*ï¿½ï¿½sPC*/
 	if(pipeline_next_stage_null(IFID)==true)
 	{
 
@@ -38,13 +38,13 @@ void inst_fetch(char* inst)
 }
 void inst_decode(void)
 {
-	/*®³¨ìregister¸ê®Æ, ¦pªG¬Obranch instruction·|¦b³o¶¥¬qºâ¥Xµ²ªG*/
+	/*ï¿½ï¿½ï¿½ï¿½registerï¿½ï¿½ï¿½, ï¿½pï¿½Gï¿½Obranch instructionï¿½|ï¿½bï¿½oï¿½ï¿½ï¿½qï¿½ï¿½Xï¿½ï¿½ï¿½G*/
 	long r_d, r_s, r_t, C, shamt;
 	char reg_dest[128];
 	if (pipeline_next_stage_null(IDEX) == true)
 	{			
 		pass_register_content(&IFID, &IDEX);
-		//** 0607 HOMEWORK: ¦b¤£¦P«ü¥O¤UÀ³¸Ó°µ¬Æ»ò¨Æ±¡,¥HADD¬°¨Ò,½Ð§¹¦¨"©Ò¦³"«ü¥O
+		//** 0607 HOMEWORK: ï¿½bï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½Oï¿½Uï¿½ï¿½ï¿½Ó°ï¿½ï¿½Æ»ï¿½Æ±ï¿½,ï¿½HADDï¿½ï¿½ï¿½ï¿½,ï¿½Ð§ï¿½ï¿½ï¿½"ï¿½Ò¦ï¿½"ï¿½ï¿½ï¿½O
 		if (strcmp(IFID.op, "ADD") == 0 )
 		{
 			sscanf(IFID.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
@@ -59,18 +59,85 @@ void inst_decode(void)
 }
 void inst_execute(void)
 {
-	/*±Nµ²ªGºâ¥X*/
+	/*ï¿½Nï¿½ï¿½ï¿½Gï¿½ï¿½X*/
 	long r_d, r_s, r_t, C, shamt;
 	char reg_dest[128];
 	if (pipeline_next_stage_null(EXMEM) == true)
 	{
 		pass_register_content(&IDEX, &EXMEM);
-		//** 0607 HOMEWORK: ¦b¤£¦P«ü¥O¤UÀ³¸Ó°µ¬Æ»ò¨Æ±¡,¥HADD¬°¨Ò,½Ð§¹¦¨"©Ò¦³"«ü¥O
-		if(strcmp(IDEX.op, "ADD") == 0)
-		{ 
-			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
-			EXMEM.rd = r_d;
-			EXMEM.temp = reg(r_s) + reg(r_t);
+		//** 0607 HOMEWORK: ï¿½bï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½Oï¿½Uï¿½ï¿½ï¿½Ó°ï¿½ï¿½Æ»ï¿½Æ±ï¿½,ï¿½HADDï¿½ï¿½ï¿½ï¿½,ï¿½Ð§ï¿½ï¿½ï¿½"ï¿½Ò¦ï¿½"ï¿½ï¿½ï¿½O
+		
+		 if(strcmp(IDEX.op, "ADD") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) + reg(r_t);
+		}
+		else if(strcmp(IDEX.op, "SUB") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) - reg(r_t);
+		}
+		else if(strcmp(IDEX.op, "ADDI") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) + r_t;
+		}
+		else if(strcmp(IDEX.op, "SUBI") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) - r_t;
+		}
+		else if(strcmp(IDEX.op, "OR") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) | reg(r_t);
+		}
+		else if(strcmp(IDEX.op, "AND") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) & reg(r_t);
+		}
+		else if(strcmp(IDEX.op, "SLL") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) << r_t;
+		}
+		else if(strcmp(IDEX.op, "SRL") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_s) >> r_t;
+		}
+		else if(strcmp(IDEX.op, "LW") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = reg(r_t) + (r_s);
+		}
+		else if(strcmp(IDEX.op, "SW") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+				EXMEM.temp = reg(r_t) + (r_s);
+				EXMEM.rd = r_d;
+		}
+		else if(strcmp(IDEX.op, "LBU") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+				EXMEM.rd = r_d;
+				EXMEM.temp = mem(reg(r_t) + (r_s)) & 0xFF;
+		}
+		else if(strcmp(IDEX.op, "SBU") == 0)
+		{
+				sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+				EXMEM.rd = mem(reg(r_t) + (r_s)) & 0xFF;
+				EXMEM.temp = reg(r_d);
 		}
 		
 		clear_pipeline_register_content(&IDEX);
@@ -79,15 +146,68 @@ void inst_execute(void)
 }
 void mem_writeback(void)
 {
-	/*±Ndata¼g¤Jmemory*/
+	/*ï¿½Ndataï¿½gï¿½Jmemory*/
 	if (pipeline_next_stage_null(MEMWB) == true)
 	{	
 		pass_register_content(&EXMEM, &MEMWB);
-		//** 0607 HOMEWORK: ¦b¤£¦P«ü¥O¤UÀ³¸Ó°µ¬Æ»ò¨Æ±¡,¥HLW¬°¨Ò,½Ð§¹¦¨"»Ý­nªº©Ò¦³"«ü¥O
+		//** 0607 HOMEWORK: ï¿½bï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½Oï¿½Uï¿½ï¿½ï¿½Ó°ï¿½ï¿½Æ»ï¿½Æ±ï¿½,ï¿½HLWï¿½ï¿½ï¿½ï¿½,ï¿½Ð§ï¿½ï¿½ï¿½"ï¿½Ý­nï¿½ï¿½ï¿½Ò¦ï¿½"ï¿½ï¿½ï¿½O
 		if (strcmp(EXMEM.op, "LW") == 0)
 		{
 			MEMWB.temp = mem(EXMEM.temp);
 			MEMWB.rd = EXMEM.rd;
+		}
+		else if (strcmp(EXMEM.op, "SW") == 0)
+		{
+			mem(EXMEM.temp) = reg(EXMEM.rd);
+		}
+		else if (strcmp(MEMWB.op, "ADD") == 0)
+		{
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "SUB") == 0)
+		{
+				MEMWB.rd = EXMEM.rd;
+				MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "ADDI") == 0)
+		{
+				MEMWB.rd = EXMEM.rd;
+				MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "SUBI") == 0)
+		{
+				MEMWB.rd = EXMEM.rd;
+				MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "OR") == 0)
+		{
+				MEMWB.rd = EXMEM.rd;
+				MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "AND") == 0)
+		{
+				MEMWB.rd = EXMEM.rd;
+				MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "SLL") == 0)
+		{
+				MEMWB.rd = EXMEM.rd;
+				MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "SRL") == 0)
+		{
+				MEMWB.rd = EXMEM.rd;
+				MEMWB.temp = EXMEM.temp;
+		}
+		else if(strcmp(IDEX.op, "LBU") == 0)
+		{
+				MEMWB.temp = mem(EXMEM.temp) & 0xFF;
+				MEMWB.rd = EXMEM.rd;
+		}
+		else if(strcmp(IDEX.op, "SBU") == 0)
+		{
+				mem(EXMEM.temp) = reg(EXMEM.rd) & 0xFF;
 		}
 			
 				
@@ -97,8 +217,8 @@ void mem_writeback(void)
 }
 void reg_update(void)
 {
-	/*±N­×§ï«áªº¸ê®Æ¼g¦^register*/
-	//** 0607 HOMEWORK: ¦b¤£¦P«ü¥O¤UÀ³¸Ó°µ¬Æ»ò¨Æ±¡,¥HADD¬°¨Ò,½Ð§¹¦¨"»Ý­nªº©Ò¦³"«ü¥O
+	/*ï¿½Nï¿½×§ï¿½áªºï¿½ï¿½Æ¼gï¿½^register*/
+	//** 0607 HOMEWORK: ï¿½bï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½Oï¿½Uï¿½ï¿½ï¿½Ó°ï¿½ï¿½Æ»ï¿½Æ±ï¿½,ï¿½HADDï¿½ï¿½ï¿½ï¿½,ï¿½Ð§ï¿½ï¿½ï¿½"ï¿½Ý­nï¿½ï¿½ï¿½Ò¦ï¿½"ï¿½ï¿½ï¿½O
 	if(strcmp(MEMWB.op, "ADD") == 0)
 	{ 
 		reg(MEMWB.rd)=MEMWB.temp;
