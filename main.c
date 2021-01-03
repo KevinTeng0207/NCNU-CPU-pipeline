@@ -104,7 +104,7 @@ int main(int argc, char* argv[]){
 	}
 
 	/* setup the simulation mode: trace driven or execution driven */
-	//吃進硬體參數的文件檔
+
 	/* process the input hardware configuration, defined in machine.h*/
 	setup_hardware_cfg(argv[1]);
 

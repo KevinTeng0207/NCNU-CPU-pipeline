@@ -1,4 +1,3 @@
-
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +16,6 @@
 
 void inst_fetch(char* inst)
 {
-	/*��sPC*/
 	if (pipeline_next_stage_null(IFID) == true)
 	{
 		char *OP;
@@ -36,13 +34,11 @@ void inst_fetch(char* inst)
 }
 void inst_decode(void)
 {
-	/*����register���, �p�G�Obranch instruction�|�b�o���q��X���G*/
 	long r_d, r_s, r_t, C, shamt;
 	char reg_dest[128];
 	if (pipeline_next_stage_null(IDEX) == true)
 	{
 		pass_register_content(&IFID, &IDEX);
-		// 0607 HOMEWORK: �b���P���O�U���Ӱ��ƻ�Ʊ�,�HADD����,�Ч���"�Ҧ�"���O
 		if (strcmp(IFID.op, "ADD") == 0)
 		{
 			sscanf(IFID.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
@@ -160,13 +156,11 @@ void inst_decode(void)
 }
 void inst_execute(void)
 {
-	/*�N���G��X*/
 	long r_d, r_s, r_t, C, shamt;
 	char reg_dest[128];
 	if (pipeline_next_stage_null(EXMEM) == true)
 	{
 		pass_register_content(&IDEX, &EXMEM);
-		// 0607 HOMEWORK: �b���P���O�U���Ӱ��ƻ�Ʊ�,�HADD����,�Ч���"�Ҧ�"���O
 		if (strcmp(IDEX.op, "ADD") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
@@ -255,79 +249,75 @@ void inst_execute(void)
 }
 void mem_writeback(void)
 {
-	/*�Ndata�g�Jmemory*/
 	if (pipeline_next_stage_null(MEMWB) == true)
 	{
 		pass_register_content(&EXMEM, &MEMWB);
-		// 0607 HOMEWORK: �b���P���O�U���Ӱ��ƻ�Ʊ�,�HLW����,�Ч���"�ݭn���Ҧ�"���O
 		if (strcmp(EXMEM.op, "LW") == 0)
 		{
 			MEMWB.temp = mem(EXMEM.temp);
 			MEMWB.rd = EXMEM.rd;
 		}
-		else if (strcmp(EXMEM.op, "SW") == 0)
+		if (strcmp(EXMEM.op, "SW") == 0)
 		{
 			mem(EXMEM.temp) = reg(EXMEM.rd);
 		}
-		else if (strcmp(MEMWB.op, "ADD") == 0)
+		if (strcmp(MEMWB.op, "ADD") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "SUB") == 0)
+		if (strcmp(IDEX.op, "SUB") == 0)
 		{
-				MEMWB.rd = EXMEM.rd;
-				MEMWB.temp = EXMEM.temp;
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "ADDI") == 0)
+		if (strcmp(IDEX.op, "ADDI") == 0)
 		{
-				MEMWB.rd = EXMEM.rd;
-				MEMWB.temp = EXMEM.temp;
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "SUBI") == 0)
+		if (strcmp(IDEX.op, "SUBI") == 0)
 		{
-				MEMWB.rd = EXMEM.rd;
-				MEMWB.temp = EXMEM.temp;
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "OR") == 0)
+		if (strcmp(IDEX.op, "OR") == 0)
 		{
-				MEMWB.rd = EXMEM.rd;
-				MEMWB.temp = EXMEM.temp;
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "AND") == 0)
+		if (strcmp(IDEX.op, "AND") == 0)
 		{
-				MEMWB.rd = EXMEM.rd;
-				MEMWB.temp = EXMEM.temp;
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "SLL") == 0)
+		if (strcmp(IDEX.op, "SLL") == 0)
 		{
-				MEMWB.rd = EXMEM.rd;
-				MEMWB.temp = EXMEM.temp;
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "SRL") == 0)
+		if (strcmp(IDEX.op, "SRL") == 0)
 		{
-				MEMWB.rd = EXMEM.rd;
-				MEMWB.temp = EXMEM.temp;
+			MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = EXMEM.temp;
 		}
-		else if(strcmp(IDEX.op, "LBU") == 0)
+		if (strcmp(IDEX.op, "LBU") == 0)
 		{
-				MEMWB.temp = mem(EXMEM.temp) & 0xFF;
-				MEMWB.rd = EXMEM.rd;
+			MEMWB.temp = mem(EXMEM.temp) & 0xFF;
+			MEMWB.rd = EXMEM.rd;
 		}
-		else if(strcmp(IDEX.op, "SBU") == 0)
+		if (strcmp(IDEX.op, "SBU") == 0)
 		{
-				mem(EXMEM.temp) = reg(EXMEM.rd) & 0xFF;
+			mem(EXMEM.temp) = reg(EXMEM.rd) & 0xFF;
 		}
-			
-				
+
+
 		clear_pipeline_register_content(&EXMEM);
 	}
 	return;
 }
 void reg_update(void)
 {
-	/*�N�ק�᪺��Ƽg�^register*/
-	// 0607 HOMEWORK: �b���P���O�U���Ӱ��ƻ�Ʊ�,�HADD����,�Ч���"�ݭn���Ҧ�"���O
 	if (strcmp(MEMWB.op, "ADD") == 0)
 	{
 		reg(MEMWB.rd) = MEMWB.temp;

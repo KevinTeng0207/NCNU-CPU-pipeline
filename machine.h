@@ -66,8 +66,8 @@ typedef struct file_memory{
   char data[128];
 }FILE_MEMORY;
 
-MEMORY inst_memory[2048];    //只有指令用MEMORY放
-FILE_MEMORY data_memory[2048];   //DATA和REG都用FILE_MEMORY
+MEMORY inst_memory[2048];    
+FILE_MEMORY data_memory[2048];  
 FILE_MEMORY reg_memory[2048];
 
 long	Register[64];	/* maximum number of the register is set to 64*/

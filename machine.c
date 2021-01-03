@@ -169,10 +169,10 @@ void init_CPU_cycle_time(void){
 	
 	/* HOMEWORK: finish the CPU cycle time calculation for multi-cycle datapath */
 	switch(DATAPATH_TYPE){
-		case SINGLE://5個全部
+		case SINGLE:
 			CPU_CYCLE_TIME = MEMORY_ACC_TIME * 2 + REGISTER_ACC_TIME * 2 + ALU_TIME;  
 			break; 
-		case MULTI: //以5個裡最長的為準
+		case MULTI: 
 			if (MEMORY_ACC_TIME > REGISTER_ACC_TIME)
 			{
 				if (MEMORY_ACC_TIME > ALU_TIME)
