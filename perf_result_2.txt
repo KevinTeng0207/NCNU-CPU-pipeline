@@ -1,0 +1,42 @@
+CPU cycle time:	290 ps
+Datapath type:	Single-Cycle Datapath 
+Total # of CPU cycles:	19 
+Instruction Memory Contents: 
+Mem_Addr	Label	Instruction 
+0		Start		ADD	$8,	$0,	$1
+
+4			SUB	$9,	$7,	$3
+
+8			SRL	$10,	$2,	1
+
+12		L1		BEQ	$8,	$9,	Exit
+
+16			ADD	$8,	$8,	$1
+
+20			ADDI	$10,	$10,	1
+
+24			SW	$10,	16($0)
+
+28			J	L1
+
+32		Exit	
+
+Data Memory Contents: 
+Mem_Addr	Data 
+16		4
+64		12
+80		88
+88		10
+Register file contents: 
+Reg_ID	Data 
+0	0
+1	1
+2	2
+3	3
+4	4
+5	5
+6	6
+7	7
+8	4
+9	4
+10	4

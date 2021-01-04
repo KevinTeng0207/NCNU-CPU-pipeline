@@ -35,13 +35,13 @@ void inst_fetch(char* inst)
 		printf("OP: %s operands: %s\n", OP, operands);
 		PC += 4;
 	}
-	else
+	/*else
 	{
 		printf("IFID\n");
 		printf("rs: $%d rt: $%d rd: $%d imm: %d temp: %d\n", IFID.rs, IFID.rt, IFID.rd, IFID.imm, IFID.temp);
 		printf("op: %s inst: %s\n", IFID.op, IFID.inst);
 		printf("PC %d\n", PC);
-	}
+	}*/
 	return;
 }
 void inst_decode(void)
