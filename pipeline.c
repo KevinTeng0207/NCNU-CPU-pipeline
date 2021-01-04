@@ -16,7 +16,7 @@
 
 void inst_fetch(char* inst)
 {
-	printf("inst  == %s", inst);
+	//printf("inst  == %s", inst);
 	if (pipeline_next_stage_null(IFID) == true)
 	{
 		char *OP;
@@ -200,8 +200,8 @@ void inst_decode(void)
 					}
 				}
 				clear_pipeline_register_content(&IFID);
-				//inst_fetch(inst_memory[PC].data);
-				//return;
+				inst_fetch(inst_memory[PC].data);
+				return;
 			}
 			else
 				IDEX.temp = 0;
