@@ -141,9 +141,23 @@ int main(int argc, char* argv[]){
 	int xi = 0;
 	while(running || pipeline_null() )
 	{
+		/*printf("PC = %d\n", PC);
+		for (i = 0; i < num_reg_mem_word; i++)
+		{
+			if (reg_memory[i * 4].mem_data != ~0)
+			{
+				printf("%d\t%ld\n", i, reg_memory[i * 4].mem_data);
+			}
+		}*/
 		inst_func_simulation(inst_memory[PC].data);
 		if (strcmp(inst_memory[PC].label, "Exit") == 0)
+		{
+			printf("running = false\n");
 			running = false;
+		}
+			
+			
+
 		/*if (xi++ == 6)
 			break;*/
 		/*  update the program counter accordingly */

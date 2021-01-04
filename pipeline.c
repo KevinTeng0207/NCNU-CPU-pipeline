@@ -16,7 +16,7 @@
 
 void inst_fetch(char* inst)
 {
-	//printf("inst  == O%sO\n", inst);
+	printf("inst  == %s", inst);
 	if (pipeline_next_stage_null(IFID) == true)
 	{
 		char *OP;
@@ -24,16 +24,23 @@ void inst_fetch(char* inst)
 		strcpy(tmp, inst);
 		OP = strtok(tmp, "\t");
 		char* operands = OP + strlen(OP) + 1;
-		//virtual version
 		if (strcmp(OP, "\n") == 0)
 			return;
-		////putty version
-		//if (strcmp(OP, "UNUSE") == 0 || strcmp(operands, "") == 0)
-		//	return;
+		if (strcmp(OP, "UNUSE") == 0)
+			return;
+		if (strcmp(operands, "") == 0)
+			return;
 		strcpy(IFID.op, OP);
 		strcpy(IFID.inst, operands);
 		printf("OP: %s operands: %s\n", OP, operands);
 		PC += 4;
+	}
+	else
+	{
+		printf("IFID\n");
+		printf("rs: $%d rt: $%d rd: $%d imm: %d temp: %d\n", IFID.rs, IFID.rt, IFID.rd, IFID.imm, IFID.temp);
+		printf("op: %s inst: %s\n", IFID.op, IFID.inst);
+		printf("PC %d\n", PC);
 	}
 	return;
 }
@@ -135,23 +142,67 @@ void inst_decode(void)
 			IDEX.rs = r_s;
 			IDEX.rt = r_t;
 		}
+		if (strcmp(IDEX.op, "J") == 0)
+		{
+			sscanf(IFID.inst, "%s", reg_dest);
+			for (int i = 0; i < 2048; i += 4)
+			{
+				if (strcmp(inst_memory[i].data, "UNUSE") == 0)
+					continue;
+				if (strcmp(inst_memory[i].label, reg_dest) == 0)
+				{
+					PC = i;
+					break;
+				}
+			}
+			clear_pipeline_register_content(&IFID);
+			inst_fetch(inst_memory[PC].data);
+			return;
+		}
 		if (strcmp(IFID.op, "BNE") == 0)
 		{
 			sscanf(IFID.inst, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
-			IDEX.rd = r_d;
-			IDEX.rs = r_s;
 			if (reg(r_d) != reg(r_s))
+			{
 				IDEX.temp = 1;
+				for (int i = 0; i < 2048; i += 4)
+				{
+					if (strcmp(inst_memory[i].data, "UNUSE") == 0)
+						continue;
+					if (strcmp(inst_memory[i].label, reg_dest) == 0)
+					{
+						PC = i;
+						break;
+					}
+				}
+				clear_pipeline_register_content(&IFID);
+				inst_fetch(inst_memory[PC].data);
+				return;
+			}
 			else
 				IDEX.temp = 0;
+			
 		}
 		if (strcmp(IFID.op, "BEQ") == 0)
 		{
 			sscanf(IFID.inst, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
-			IDEX.rd = r_d;
-			IDEX.rs = r_s;
-			if (reg(r_d) == reg(r_s))
+			if (reg(r_d) == reg(r_s)) 
+			{
 				IDEX.temp = 1;
+				for (int i = 0; i < 2048; i += 4)
+				{
+					if (strcmp(inst_memory[i].data, "UNUSE") == 0)
+						continue;
+					if (strcmp(inst_memory[i].label, reg_dest) == 0)
+					{
+						PC = i;
+						break;
+					}
+				}
+				clear_pipeline_register_content(&IFID);
+				//inst_fetch(inst_memory[PC].data);
+				//return;
+			}
 			else
 				IDEX.temp = 0;
 		}
@@ -219,38 +270,6 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = (reg(r_t) + (r_s));
-		}
-		if (strcmp(IDEX.op, "J") == 0)
-		{
-			sscanf(IDEX.inst, "%s", reg_dest);
-			for (int i = 0; i < 2048; i += 4)
-			{
-				if (strcmp(inst_memory[i].data, "UNUSE") == 0)
-					continue;
-				if (strcmp(inst_memory[i].label, reg_dest) == 0)
-				{
-					PC = i;
-					break;
-				}
-			}
-		}
-		if (strcmp(IDEX.op, "BEQ") == 0 || strcmp(IDEX.op, "BNE") == 0)
-		{
-			sscanf(IDEX.inst, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
-			EXMEM.rd = r_d;
-			if (EXMEM.temp)
-			{
-				for (int i = 0; i < 2048; i += 4)
-				{
-					if (strcmp(inst_memory[i].data, "UNUSE") == 0)
-						continue;
-					if (strcmp(inst_memory[i].label, reg_dest) == 0)
-					{
-						PC = i;
-						break;
-					}
-				}
-			}
 		}
 		clear_pipeline_register_content(&IDEX);
 	}
@@ -327,15 +346,65 @@ void mem_writeback(void)
 }
 void reg_update(void)
 {
-	////putty version
-	//if (MEMWB.rd >= 0)
-	//{
-	//	reg(MEMWB.rd) = MEMWB.temp;
-	//}
+	if (strcmp(MEMWB.op, "ADD") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
 
-	//virtual version
-	reg(MEMWB.rd) = MEMWB.temp;
+	else if (strcmp(MEMWB.op, "SUB") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
 
+	else if (strcmp(MEMWB.op, "ADDI") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "SUBI") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "OR") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "AND") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "SLL") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "SRL") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "LW") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "LBU") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "SBU") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
+
+	else if (strcmp(MEMWB.op, "SLT") == 0)
+	{
+		reg(MEMWB.rd) = MEMWB.temp;
+	}
 	clear_pipeline_register_content(&MEMWB);
 	return;
 }
