@@ -301,7 +301,7 @@ void mem_writeback(void)
 		{
 			MEMWB.temp = mem(EXMEM.temp);
 			MEMWB.rd = EXMEM.rd;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(EXMEM.op, "SW") == 0)
@@ -312,70 +312,69 @@ void mem_writeback(void)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if(if_hazard() == true)
+			if(if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SUB") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "ADDI") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SUBI") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "OR") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "AND") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SLL") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SRL") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "LBU") == 0)
 		{
 			MEMWB.temp = mem(EXMEM.temp) & 0xFF;
 			MEMWB.rd = EXMEM.rd;
-			if (if_hazard() == true)
+			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SBU") == 0)
 		{
 			mem(EXMEM.temp) = reg(EXMEM.rd) & 0xFF;
 		}
-
 
 		clear_pipeline_register_content(&EXMEM);
 	}
