@@ -16,7 +16,7 @@
 
 void inst_fetch(char* inst)
 {
-	//printf("inst  == %s", inst);
+	printf("inst  == %s", inst);
 	if (pipeline_next_stage_null(IFID) == true)
 	{
 		char *OP;
@@ -181,7 +181,6 @@ void inst_decode(void)
 			}
 			else
 				IDEX.temp = 0;
-			
 		}
 		if (strcmp(IFID.op, "BEQ") == 0)
 		{
@@ -222,54 +221,72 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) + reg(r_t);
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if (strcmp(IDEX.op, "SUB") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) - reg(r_t);
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if (strcmp(IDEX.op, "ADDI") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) + r_t;
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if (strcmp(IDEX.op, "SUBI") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) - r_t;
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if (strcmp(IDEX.op, "OR") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) | reg(r_t);
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if (strcmp(IDEX.op, "AND") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) & reg(r_t);
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if (strcmp(IDEX.op, "SLL") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) << r_t;
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if (strcmp(IDEX.op, "SRL") == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) >> r_t;
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		if ((strcmp(IDEX.op, "LW") == 0 || strcmp(IDEX.op, "SW") == 0) || (strcmp(IDEX.op, "LBU") == 0 || strcmp(IDEX.op, "SBU")) == 0)
 		{
 			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = (reg(r_t) + (r_s));
+			if (if_hazard() == true)
+				reg(EXMEM.rd) = EXMEM.temp;
 		}
 		clear_pipeline_register_content(&IDEX);
 	}
@@ -284,6 +301,8 @@ void mem_writeback(void)
 		{
 			MEMWB.temp = mem(EXMEM.temp);
 			MEMWB.rd = EXMEM.rd;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(EXMEM.op, "SW") == 0)
 		{
@@ -293,46 +312,64 @@ void mem_writeback(void)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if(if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SUB") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "ADDI") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SUBI") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "OR") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "AND") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SLL") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SRL") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "LBU") == 0)
 		{
 			MEMWB.temp = mem(EXMEM.temp) & 0xFF;
 			MEMWB.rd = EXMEM.rd;
+			if (if_hazard() == true)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 		if (strcmp(IDEX.op, "SBU") == 0)
 		{
@@ -414,7 +451,8 @@ void flush_pipeline(void)
 }
 bool if_hazard(void)   //HOMEWORK
 {
-	return false;
+	return true;
+	//return false;
 }
 bool pipeline_null(void)
 {

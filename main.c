@@ -139,6 +139,7 @@ int main(int argc, char* argv[]){
 	if (strcmp(inst_memory[PC].label, "Exit") == 0)
 		running = false;
 	int xi = 0;
+	
 	while(running || pipeline_null() )
 	{
 		printf("PC = %d\n", PC);
@@ -158,7 +159,7 @@ int main(int argc, char* argv[]){
 			
 			
 
-		/*if (xi++ == 6)
+		/*if (xi++ == 20)
 			break;*/
 		/*  update the program counter accordingly */
 	}
