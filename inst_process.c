@@ -271,7 +271,7 @@ void inst_func_simulation(char* inst) {
 				sim_cycles++;
 				break;
 			case MULTI:
-				sim_cycles += 1;
+				sim_cycles += 3;
 				break;
 
 			}
