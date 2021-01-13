@@ -158,8 +158,7 @@ int main(int argc, char* argv[]){
 		}
 			
 			
-
-		/*if (xi++ == 20)
+		/*if (xi++ == 21)
 			break;*/
 		/*  update the program counter accordingly */
 	}

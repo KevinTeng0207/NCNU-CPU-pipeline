@@ -155,6 +155,7 @@ void inst_decode(void)
 					break;
 				}
 			}
+			// control hazard stall again fetch
 			clear_pipeline_register_content(&IFID);
 			inst_fetch(inst_memory[PC].data);
 			return;
@@ -162,6 +163,8 @@ void inst_decode(void)
 		if (strcmp(IFID.op, "BNE") == 0)
 		{
 			sscanf(IFID.inst, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
+			IDEX.rd = r_d;
+			IDEX.rs = r_s;
 			if (reg(r_d) != reg(r_s))
 			{
 				IDEX.temp = 1;
@@ -175,6 +178,7 @@ void inst_decode(void)
 						break;
 					}
 				}
+				// control hazard stall again fetch
 				clear_pipeline_register_content(&IFID);
 				inst_fetch(inst_memory[PC].data);
 				return;
@@ -185,6 +189,8 @@ void inst_decode(void)
 		if (strcmp(IFID.op, "BEQ") == 0)
 		{
 			sscanf(IFID.inst, "$%ld, $%ld, %s", &r_d, &r_s, reg_dest);
+			IDEX.rd = r_d;
+			IDEX.rs = r_s;
 			if (reg(r_d) == reg(r_s)) 
 			{
 				IDEX.temp = 1;
@@ -198,6 +204,7 @@ void inst_decode(void)
 						break;
 					}
 				}
+				// control hazard stall again fetch
 				clear_pipeline_register_content(&IFID);
 				inst_fetch(inst_memory[PC].data);
 				return;
@@ -221,6 +228,7 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) + reg(r_t);
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
@@ -229,6 +237,7 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) - reg(r_t);
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
@@ -237,6 +246,7 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) + r_t;
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
@@ -245,6 +255,7 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) - r_t;
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
@@ -253,6 +264,7 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) | reg(r_t);
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
@@ -261,6 +273,7 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, $%ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) & reg(r_t);
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
@@ -269,6 +282,7 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) << r_t;
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
@@ -277,16 +291,31 @@ void inst_execute(void)
 			sscanf(IDEX.inst, "$%ld, $%ld, %ld", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = reg(r_s) >> r_t;
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
 		}
-		if ((strcmp(IDEX.op, "LW") == 0 || strcmp(IDEX.op, "SW") == 0) || (strcmp(IDEX.op, "LBU") == 0 || strcmp(IDEX.op, "SBU")) == 0)
+		if ((strcmp(IDEX.op, "SW") == 0) || (strcmp(IDEX.op, "SBU") == 0))
 		{
 			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
 			EXMEM.rd = r_d;
 			EXMEM.temp = (reg(r_t) + (r_s));
+			//forwarding
 			if (if_hazard() == true)
 				reg(EXMEM.rd) = EXMEM.temp;
+		}
+		if ((strcmp(IDEX.op, "LW") == 0) || (strcmp(IDEX.op, "LBU") == 0))
+		{
+			sscanf(IDEX.inst, "$%ld, %ld($%ld)", &r_d, &r_s, &r_t);
+			EXMEM.rd = r_d;
+			EXMEM.temp = (reg(r_t) + (r_s));
+			//stall and then forwarding
+			if (if_hazard() == true)
+			{
+				/*reg_update();
+				mem_writeback();*/
+				return;
+			}
 		}
 		clear_pipeline_register_content(&IDEX);
 	}
@@ -301,6 +330,7 @@ void mem_writeback(void)
 		{
 			MEMWB.temp = mem(EXMEM.temp);
 			MEMWB.rd = EXMEM.rd;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
@@ -308,72 +338,84 @@ void mem_writeback(void)
 		{
 			mem(EXMEM.temp) = reg(EXMEM.rd);
 		}
-		if (strcmp(MEMWB.op, "ADD") == 0)
+		if (strcmp(EXMEM.op, "ADD") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if(if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "SUB") == 0)
+		if (strcmp(EXMEM.op, "SUB") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "ADDI") == 0)
+		if (strcmp(EXMEM.op, "ADDI") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "SUBI") == 0)
+		if (strcmp(EXMEM.op, "SUBI") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "OR") == 0)
+		if (strcmp(EXMEM.op, "OR") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "AND") == 0)
+		if (strcmp(EXMEM.op, "AND") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "SLL") == 0)
+		if (strcmp(EXMEM.op, "SLL") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "SRL") == 0)
+		if (strcmp(EXMEM.op, "SRL") == 0)
 		{
 			MEMWB.rd = EXMEM.rd;
 			MEMWB.temp = EXMEM.temp;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "LBU") == 0)
+		if (strcmp(EXMEM.op, "LBU") == 0)
 		{
 			MEMWB.temp = mem(EXMEM.temp) & 0xFF;
 			MEMWB.rd = EXMEM.rd;
+			//forwarding
 			if (if_hazard() == true && MEMWB.rd >= 0)
 				reg(MEMWB.rd) = MEMWB.temp;
 		}
-		if (strcmp(IDEX.op, "SBU") == 0)
+		if (strcmp(EXMEM.op, "SBU") == 0)
 		{
 			mem(EXMEM.temp) = reg(EXMEM.rd) & 0xFF;
+			//forwarding
+			if (if_hazard() == true && MEMWB.rd >= 0)
+				reg(MEMWB.rd) = MEMWB.temp;
 		}
 
 		clear_pipeline_register_content(&EXMEM);
@@ -450,8 +492,35 @@ void flush_pipeline(void)
 }
 bool if_hazard(void)   //HOMEWORK
 {
-	return true;
-	//return false;
+	if (EXMEM.rd == IDEX.rs)	//1a
+	{
+		printf("1a\n");
+		return true;
+	}
+		
+	else if (EXMEM.rd == IDEX.rt)	//1b
+	{
+		printf("1b\n");
+		return true;
+	}
+	else if (MEMWB.rd == IDEX.rs)	//2a
+	{
+		printf("2a\n");
+		return true;
+	}
+	else if (MEMWB.rd == IDEX.rt)	//2b
+	{
+		printf("2a\n");
+		return true;
+	}
+	else
+		return false;
+
+	//return true;
+	//1a : EX / MEM.RegisterRd = ID / EX.RegisterRs
+	//1b : EX / MEM.RegisterRd = ID / EX.RegisterRt
+	//2a : MEM / WB.RegisterRd = ID / EX.RegisterRs
+	//2b : MEM / WB.RegisterRd = ID / EX.RegisterRt
 }
 bool pipeline_null(void)
 {
