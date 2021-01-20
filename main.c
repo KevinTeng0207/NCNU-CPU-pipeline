@@ -138,18 +138,19 @@ int main(int argc, char* argv[]){
 	bool running = true;
 	if (strcmp(inst_memory[PC].label, "Exit") == 0)
 		running = false;
-	int xi = 0;
+	int xi = 1;
 	
 	while(running || pipeline_null() )
 	{
-		printf("PC = %d\n", PC);
+		/*printf("PC = %d\n", PC);
 		for (i = 0; i < num_reg_mem_word; i++)
 		{
 			if (reg_memory[i * 4].mem_data != ~0)
 			{
 				printf("%d\t%ld\n", i, reg_memory[i * 4].mem_data);
 			}
-		}
+		}*/
+		//printf("cycle :%d", xi++);
 		inst_func_simulation(inst_memory[PC].data);
 		if (strcmp(inst_memory[PC].label, "Exit") == 0)
 		{
@@ -158,8 +159,8 @@ int main(int argc, char* argv[]){
 		}
 			
 			
-		/*if (xi++ == 21)
-			break;*/
+		if (xi++ == 21)
+			break;
 		/*  update the program counter accordingly */
 	}
 

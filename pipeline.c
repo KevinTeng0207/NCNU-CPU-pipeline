@@ -492,6 +492,10 @@ void flush_pipeline(void)
 }
 bool if_hazard(void)   //HOMEWORK
 {
+	if (EXMEM.rd == -1 || IDEX.rs == -1)
+		return false;
+	if (MEMWB.rd == -1 || IDEX.rt == -1)
+		return false;
 	if (EXMEM.rd == IDEX.rs)	//1a
 	{
 		printf("1a\n");
@@ -510,7 +514,7 @@ bool if_hazard(void)   //HOMEWORK
 	}
 	else if (MEMWB.rd == IDEX.rt)	//2b
 	{
-		printf("2a\n");
+		printf("2b\n");
 		return true;
 	}
 	else
@@ -552,6 +556,7 @@ void print_pipeline_register_content(void)
 	printf("rs: $%d rt: $%d rd: $%d imm: %d temp: %d\n", MEMWB.rs, MEMWB.rt, MEMWB.rd, MEMWB.imm, MEMWB.temp);
 	printf("op: %s inst: %s\n", MEMWB.op, MEMWB.inst);
 	printf("\n");
+	//printf("IFID IDEX EXMEM MEMWB\n $%d imm: %d temp: %d\n", IFID.rs, IFID.rt, IFID.rd, IFID.imm, IFID.temp);
 	return;
 
 }
